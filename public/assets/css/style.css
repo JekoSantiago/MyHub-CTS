@@ -1,0 +1,156 @@
+/*******************************
+Author: J. Tambagan
+Email: coderthemes@gmail.com
+File: Main custom CSS file
+********************************/
+
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #dadce0;
+    border-color: transparent;
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 4px;
+    box-shadow: none;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 2px solid yellow;
+}
+
+.flex-child:first-child {
+    margin-right: 20px;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar {
+    height: 10px;
+    width: 2px;
+}
+
+.logo-text-sm {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.logo-text-lg {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.table-info-profile td {
+    border-bottom: 1px solid rgba(229, 232, 235, 0.5);
+}
+
+.table-info-profile tr:first-child td {
+    border-top: none;
+}
+
+.table-info-profile tr:last-child td {
+    border-bottom: none;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: #fff;
+    cursor: default;
+}
+
+.dropdown-usage-filter {
+    min-width: 18rem;
+}
+
+.app-logo {
+    width: 200px;
+    color: #fff;
+}
+
+.app-logo span {
+    color: #0a5d94;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+@media (max-width: 500px) {
+    .app-logo {
+        display: none;
+    }
+  }
+
+  .pagination .page-item.active .page-link { background-color: #0A5D94; }
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-item.active .page-link:focus {
+background-color: #0A5D94;
+}
+
+.pagination .page-item.active .page-link:hover {
+background-color: #0A5D94;
+}
+
+.time-frame {
+    background-color: #ffffff00;
+    color: #ffffff;
+    width: 300px;
+}
+
+.time-frame > div {
+    width: 150%;
+    text-align: center;
+}
+
+#date-part {
+    font-size: 1.1em;
+}
+#time-part {
+    font-size: 1.5em;
+}
+
+@media screen and (max-width: 600px) {
+    #time-frame {
+      visibility: hidden;
+      clear: both;
+      float: left;
+      margin: 10px auto 5px 20px;
+      width: 28%;
+      display: none;
+    }
+  }
+  select[readonly].select2-hidden-accessible + .select2-container {
+    pointer-events: none;
+    touch-action: none;
+}
+
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection {
+    background: #eee;
+    box-shadow: none;
+}
+
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection__arrow, select[readonly].select2-hidden-accessible + .select2-container .select2-selection__clear {
+    display: none;
+}
+
+.datatableUp {
+    text-transform: uppercase;
+  }
+
+.subheaddt {
+    vertical-align: top;
+    text-align: left;
+}
+
