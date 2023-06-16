@@ -49,8 +49,9 @@
             </li>
             <li>
                 <div>
-                    <h3 class="text-light pt-2 pl-2"><span>{{ env('APP_NAME') }}<span></h3>
-               </div>
+                    <h4 class="text-light pt-2 pl-2 t1"><span>{{ env('APP_NAME') }}<span></h4>
+
+                </div>
             </li>
 
         </ul>

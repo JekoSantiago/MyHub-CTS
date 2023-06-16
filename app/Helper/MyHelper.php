@@ -144,7 +144,7 @@ class MyHelper
         }
         else
         {
-             return abort(403);
+            return abort(403);
         }
     }
 
@@ -158,6 +158,20 @@ class MyHelper
         {
             return false;
         }
+    }
+
+    public static function generateQM($data)
+    {
+        $totalParams = count($data);
+        if($totalParams == 0):
+        return '';
+        else:
+        $param = '';
+            foreach($data as $d):
+            $param.='?,';
+            endforeach;
+        return substr($param, 0, -1);
+        endif;
     }
 
 

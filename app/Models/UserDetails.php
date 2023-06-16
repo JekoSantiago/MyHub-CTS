@@ -12,7 +12,7 @@ class UserDetails extends Model
      */
     public static function getUserDetails($id)
     {
-        $result = DB::select('UserMgt.dbo.sp_User_Get ?', [$id]);
+        $result = DB::select('UserMgt_prd.dbo.sp_User_Get ?', [$id]);
 
         return $result;
     }

@@ -21,6 +21,7 @@ Route::get('/monitoring','PageController@monitoring')->name('monitoring');
 Route::get('/compliance','PageController@compliance')->name('compliance');
 Route::get('/monitoring-tally/{ctsID}','PageController@tallySheet');
 Route::get('/logout' , 'AuthController@logout')->name('logout');
+Route::get('/audit', 'PageController@audit')->name('audit');
 
 
 //CTS
@@ -40,5 +41,11 @@ Route::get('/cts-print2/{ctsNo}/{shift}','ReportController@exportCTS');
 // Compliance
 Route::post('/compliance-get','ComplianceController@getCompliance');
 Route::get('/compliance-dl/{params}','ReportController@exportCompliance');
+
+//Audit
+Route::post('/audit-get','AuditController@getAuditDT');
+Route::get('/audit-dl/{params}','ReportController@exportAudit');
+Route::post('/image-get','AuditController@getImage');
+
 
 

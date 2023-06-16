@@ -12,15 +12,15 @@
                         <div class="form-group">
                             <input type="hidden" value="" id="cts_ID" name="cts_ID">
                             <input type="hidden" value="" id="pickup_type" name="pickup_type">
-                            <div class="row">
-                                <div class="col-6">
+                            <div class="denomlist">
+                                <div class="mr-auto">
                                     <table class="table table-centered w-100 nowrap">
-                                       <thead>
-                                           <tr>
-                                               <th>Bills</th>
-                                               <th style="width:40%">Qty<th>
+                                        <thead>
+                                            <tr>
+                                                <th>Bills</th>
+                                                <th style="width:40%">Qty<th>
                                             </tr>
-                                       </thead>
+                                        </thead>
                                         @foreach($denom as $d)
                                             @if($d->DenomType_ID == 2)
                                                 <tr>
@@ -31,7 +31,7 @@
                                         @endforeach
                                     </table>
                                 </div>
-                                <div class="col-6">
+                                <div class="">
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -39,27 +39,29 @@
                                                 <th style="width:50%">Qty<th>
                                             </tr>
                                         </thead>
-                                         @foreach($denom as $d)
-                                             @if($d->DenomType_ID == 1)
-                                                 <tr>
-                                                     <td>{{ $d->Amount }}</td>
-                                                     <td><input type="number"  min="0" class="form-control"  id="{{ $d->DenomOption_ID }}" name ="{{ $d->DenomOption_ID }}" oninput="validity.valid||(value='');"></td>
+                                            @foreach($denom as $d)
+                                                @if($d->DenomType_ID == 1)
+                                                    <tr>
+                                                        <td>{{ $d->Amount }}</td>
+                                                        <td><input type="number"  min="0" class="form-control"  id="{{ $d->DenomOption_ID }}" name ="{{ $d->DenomOption_ID }}" oninput="validity.valid||(value='');"></td>
                                                     </tr>
-                                             @endif
-                                         @endforeach
-                                     </table>
+                                                @endif
+                                            @endforeach
+                                    </table>
                                 </div>
                             </div>
-                            <div class="row endopt">
-                                <div class="col-6">
-                                    <label for="denom_lcf">Loose Change Fund</label>
-                                    <input type="number" id="denom_lcf" name="denom_lcf" class="form-control" value=""  min="0"  oninput="validity.valid||(value='')";>
-                                    <label class="invalid-feedback" id="denom_lcf_error">Loose Change Fund is required.</label>
-                                </div>
-                                <div class="col-6">
-                                    <label for="denom_lcc">Check Encashment</label>
-                                    <input type="number" id="denom_lcc" name="denom_lcc" class="form-control" value="" min="0" oninput="validity.valid||(value='')";>
-                                    <label class="invalid-feedback" id="denom_lcc_error">Check Encashment is required.</label>
+                            <div class="endopt">
+                                <div class="denomlist">
+                                    <div class="mr-2 mb-3 ">
+                                        <label for="denom_lcf">Loose Change Fund</label>
+                                        <input type="number" id="denom_lcf" name="denom_lcf" class="form-control" value=""  min="0"  oninput="validity.valid||(value='')";>
+                                        <label class="invalid-feedback" id="denom_lcf_error">Loose Change Fund is required.</label>
+                                    </div>
+                                    <div class="mr-2 mb-3">
+                                        <label for="denom_lcc">Check Encashment</label>
+                                        <input type="number" id="denom_lcc" name="denom_lcc" class="form-control" value="" min="0" oninput="validity.valid||(value='')";>
+                                        <label class="invalid-feedback" id="denom_lcc_error">Check Encashment is required.</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

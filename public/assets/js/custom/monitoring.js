@@ -6,13 +6,19 @@ $(document).ready(function() {
     var date1 = $("#filter_dateFrom").flatpickr({
         onChange: function(selectedDates, dateStr, instance) {
             date2.set('minDate', dateStr)
-          }
+        }
     })
     var date2 = $("#filter_dateTo").flatpickr({
         onChange: function(selectedDates, dateStr, instance) {
             date1.set('maxDate', dateStr)
-          }
+        }
     })
+
+    $('#modal_filter_mcts').on('hidden.bs.modal',function(){
+
+        $('#filter_store').val(0);
+
+    });
 
 
 

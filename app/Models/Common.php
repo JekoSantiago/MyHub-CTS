@@ -16,14 +16,14 @@ class Common extends Model
         $moduleID         = $data['moduleID'];
         $roleID           = $data['roleID'];
 
-        $result = DB::select('UserMgt.dbo.sp_User_ModuleRole_Get ?,?,?,?', [$moduleRoleID,$appID,$moduleID,$roleID]);
+        $result = DB::select('UserMgt_prd.dbo.sp_User_ModuleRole_Get ?,?,?,?', [$moduleRoleID,$appID,$moduleID,$roleID]);
         return $result;
     }
 
 
     public static function getLocation($data)
     {
-        return DB::select('ATPI_HR.dbo.sp_Location_Get ?',[$data]);
+        return DB::select('ATPI_HR_15.dbo.sp_Location_Get ?',[$data]);
     }
 
     public static function getShift()

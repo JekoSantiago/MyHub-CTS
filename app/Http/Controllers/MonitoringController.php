@@ -36,11 +36,11 @@ class MonitoringController extends Controller
         $param = [
             $request->ctsNo,
             $request->filter_emp,
-            $request->filter_shift
+            $request->filter_shift,
+            MyHelper::decrypt(Session::get("Employee_ID"))
         ];
 
         $data = Monitoring::getTallySheet($param);
-        // dd($data);
 
         return datatables($data)->toJson();
     }

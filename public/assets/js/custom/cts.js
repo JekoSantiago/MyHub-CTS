@@ -37,15 +37,23 @@ $(document).ready(function() {
           }
     })
 
+        $('#modal_new_cts').on('hidden.bs.modal',function(){
+
+            $('#cts_shift').val(0);
+
+        });
+
+
 
 
     $('#btn_add_cts').on('click',function(){
-
+        $(this).attr('disabled',true)
+        $(this).text('Saving...')
         var error = false
         var date = $('#cts_date').val();
         var shift = $('#cts_shift').val();
 
-        if(date.lenth == 0)
+        if(date.length == 0)
         {
             error = true;
             $('#cts_date').addClass('error-input');
@@ -98,6 +106,8 @@ $(document).ready(function() {
                                     if (true) {
                                         $('#modal_new_cts').modal('hide');
                                         tblCTS.ajax.reload(null,false)
+                                        $('#btn_add_cts').attr('disabled',false)
+                                        $('#btn_add_cts').text('Save')
                                     }
                                     })
                         }
@@ -167,7 +177,7 @@ $(document).ready(function() {
                     var btn = ''
                     if (parseInt(row.PickupCount) < 5 && row.CTSDate == getDate() && row.InsertBy == userID)
                     {
-                        btn = '<a href="javascript:void(0)" class="action-icon text-success"  data-toggle="tooltip" data-placement="top" title="Denom"><i class="mdi mdi-account-cash-outline denum"></i></a>';
+                        btn = '<a href="javascript:void(0)" class="action-icon text-success"  data-toggle="tooltip" data-placement="top" title="ENCODE"><i class="mdi mdi-account-cash-outline denum"></i></a>';
                     }
 
                     return  btn;

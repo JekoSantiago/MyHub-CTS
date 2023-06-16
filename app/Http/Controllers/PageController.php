@@ -21,17 +21,14 @@ class PageController extends Controller
     {
         MyHelper::checkSession();
 
-        $data['title']= 'Denomination';
+        $data['title']= 'Encoding';
 
         $loc = Common::getLocation(MyHelper::decrypt(Session::get('Location_ID')));
         $shift = Common::getShift();
         $denom = Cts::getDenom();
-
-
         $data['loc'] = $loc[0];
         $data['shift'] = $shift;
         $data['denom'] = $denom;
-
         JavaScriptFacade::put([
             'userID' =>  MyHelper::decrypt(Session::get('Employee_ID'))
         ]);
@@ -71,7 +68,7 @@ class PageController extends Controller
         $ctsNo = $request->segment(2);
         $shift = Common::getShift();
         $emp = Common::getEmpCTS([$ctsNo]);
-        $data['title'] = 'Tally Sheet';
+        $data['title'] = 'Cashier Tally Sheet';
         $data['CTSNo'] = $ctsNo;
         $data['shift'] = $shift;
         $data['employee'] = $emp;
@@ -85,7 +82,6 @@ class PageController extends Controller
     public function compliance(Request $request)
     {
         MyHelper::checkSession();
-
         $data['title'] = 'Compliance';
         $param = [
             MyHelper::decrypt(Session::get('Employee_ID')),
@@ -97,6 +93,20 @@ class PageController extends Controller
         $data['stores'] = $stores;
         return view('pages.compliance.index', $data);
 
+    }
+
+    public function audit(Request $request)
+    {
+        $data['title'] = 'Cash Sales Deposit Audit Monitoring';
+        $param = [
+            MyHelper::decrypt(Session::get('Employee_ID')),
+            MyHelper::decrypt(Session::get('Department_ID'))
+        ];
+
+        $stores = Common::getStores($param);
+
+        $data['stores'] = $stores;
+        return view('pages.audit.index', $data);
     }
 
 

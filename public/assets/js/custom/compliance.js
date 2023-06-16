@@ -17,6 +17,11 @@ $(document).ready(function() {
           }
     })
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     var tbl_comp = $('#tbl_comp').DataTable({
         autoWidth: true,
@@ -84,9 +89,13 @@ $(document).ready(function() {
                 {
                     icon = '<div class="text-success">&check;</div>';
                 }
-                else
+                else if (row.Opening == 0)
                 {
                     icon = '<div class="text-danger">&#10006;</div>';
+                }
+                else
+                {
+                    icon = '<div class="text-secondary"> - </div>';
                 }
                 return  icon;
             },},
@@ -97,9 +106,13 @@ $(document).ready(function() {
                 {
                     icon = '<div class="text-success">&check;</div>';
                 }
-                else
+                else if (row.Mid == 0)
                 {
                     icon = '<div class="text-danger">&#10006;</div>';
+                }
+                else
+                {
+                    icon = '<div class="text-secondary"> - </div>';
                 }
                 return  icon;
             },},
@@ -110,9 +123,13 @@ $(document).ready(function() {
                 {
                     icon = '<div class="text-success">&check;</div>';
                 }
-                else
+                else if (row.Closing == 0)
                 {
                     icon = '<div class="text-danger">&#10006;</div>';
+                }
+                else
+                {
+                    icon = '<div class="text-secondary"> - </div>';
                 }
                 return  icon;
             },},
@@ -157,8 +174,6 @@ $(document).ready(function() {
         {
             swal.fire("Empty Report" ,"Filter first" , "warning");
         }
-
-
 
     })
 

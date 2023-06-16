@@ -154,3 +154,18 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
     text-align: left;
 }
 
+
+@media screen and (min-width: 768px) {
+    .denomlist {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+}
+
+@media screen and (max-width: 800px) {
+    h4{
+        display: none;
+    }
+}
+

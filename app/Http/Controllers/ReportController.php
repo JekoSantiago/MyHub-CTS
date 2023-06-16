@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportAudit;
 use App\Exports\ExportComp;
 use App\Exports\ExportCTS;
 use App\Helper\MyHelper;
+use App\Models\Audit;
 use App\Models\Compliance;
 use App\Models\Monitoring;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -195,5 +197,33 @@ class ReportController extends Controller
         $invoice = Pdf::loadView('reports.ctsreport',$data)->setPaper('letter', 'landscape');
         $invoice->save(storage_path().'/app/public/'. $request->segment(2) .'.pdf');
         return $invoice->stream();
+    }
+
+
+    public function exportAudit(Request $request)
+    {
+        MyHelper::checkSession();
+
+
+        $params = base64_decode($request->segment(2));
+        $detail = explode('@@', $params);
+        $dateFrom  = $detail[0];
+        $dateTo = $detail[1];
+        $store   = $detail[2];
+
+        $param = [
+            $dateFrom,
+            $dateTo,
+            $store,
+            MyHelper::decrypt(Session::get('Employee_ID'))
+        ];
+
+
+        $data = Audit::getAuditDT($param);
+        $filename = 'CashSales_Deposit_Audit_Monitoring'.date('Ymd', strtotime($dateFrom)).'To'.date('Ymd', strtotime($dateTo)).'.xlsx';
+
+
+        return Excel::download(new ExportAudit($data), $filename);
+
     }
 }

@@ -3,7 +3,7 @@ $(document).ready(function() {
     var tbl_denum = $('#tbl_denum').DataTable({
         autoWidth: true,
         serverSide: true,
-        scrollX: false,
+        scrollX: true,
         ordering: false,
         lengthChange: false,
         paging: false,

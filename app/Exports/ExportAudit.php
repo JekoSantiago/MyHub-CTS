@@ -2,14 +2,13 @@
 
 namespace App\Exports;
 
-use App\Cms;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
 
 
 
 
-class ExportComp implements FromView
+class ExportAudit implements FromView
 {
     private $data;
 
@@ -21,9 +20,9 @@ class ExportComp implements FromView
 	public function view(): View
 	{
 
-        $comp = $this->data;
-        $data['comp'] = $comp;
+        $audit = $this->data;
+        $data['audit'] = $audit;
 
-		return view('reports.compliance',$data);
+		return view('reports.audit',$data);
 	}
 }

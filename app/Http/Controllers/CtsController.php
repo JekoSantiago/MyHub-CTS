@@ -63,35 +63,35 @@ class CtsController extends Controller
         foreach ($data as $key => $value) {
             if(is_numeric($key) && $value > 0)
             {
-               $param = [
-                   intval($request->cts_ID),
-                   $key,
-                   $value,
-                   intval($request->pickup_type),
-                   intval($request->denom_lcf),
-                   intval($request->denom_lcc),
-                   Myhelper::decrypt(Session::get('Employee_ID'))
-               ];
+                $param = [
+                    intval($request->cts_ID),
+                    $key,
+                    $value,
+                    intval($request->pickup_type),
+                    intval($request->denom_lcf),
+                    intval($request->denom_lcc),
+                    Myhelper::decrypt(Session::get('Employee_ID'))
+                ];
 
-               $insert = Cts::insertDenom($param);
+                $insert = Cts::insertDenom($param);
 
-               $num = $insert[0]->RETURN;
-               $msg = $insert[0]->Message;
+                $num = $insert[0]->RETURN;
+                $msg = $insert[0]->Message;
 
-               if($num<0)
-               {
+                if($num<0)
+                {
                     $result = array('num' => $num, 'msg' => $msg);
                     return $result;
-               }
-               else
-               {
-                   $success++;
-               }
+                }
+                else
+                {
+                    $success++;
+                }
 
             }
         }
 
-        if($fail <= 0)
+        if($success > 0)
         {
             $num = $success;
             $msg = $msg;
@@ -100,7 +100,7 @@ class CtsController extends Controller
         else
         {
             $num = -1;
-            $msg = "Failed";
+            $msg = "Total encoded denomination is zero";
         }
 
         $result = array('num' => $num, 'msg' => $msg);
@@ -124,7 +124,7 @@ class CtsController extends Controller
     {
         MyHelper::checkSession();
 
-        $data['title'] = 'Tally Sheet';
+        $data['title'] = 'Cashier Tally Sheet';
         $data['denum'] = Cts::getTallySheet();
 
         return view('pages.CTS.tallysheet', $data);
