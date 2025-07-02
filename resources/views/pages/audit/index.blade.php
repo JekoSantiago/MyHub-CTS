@@ -39,29 +39,29 @@
                         <div class="text-sm-right">
                             <button type="button" class="btn btn-primary waves-effect waves-light mb-2 mr-1" data-toggle="modal" data-target="#modal_filter_audit"><i class="mdi mdi-filter-menu"></i></button>
                         </div>
-                        <div>
+                        {{-- <div>
                             <button type="button" id="audit_dl" class="btn btn-success waves-effect waves-light mb-2 mr-1"><i class="mdi mdi-download"></i></button>
-                        </div>
+                        </div> --}}
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <h3 id="filter_title"></h3>
                 </div>
             </div>
             <table id="tbl_audit" class="table table-centered w-100 nowrap">
                 <thead>
                     <tr>
-                        <th>STORE CODE</th>
-                        <th>STORE NAME</th>
+                        <th>STORE</th>
                         <th>DPU FREQUENCY</th>
                         <th>SALES DATE</th>
-                        <th>CTS TOTAL NET CASH COLLECTION</th>
+                        <th style="width: 15%">STATUS</th>
+                        <th>TREASURY <br> REMARKS</th>
+                        <th class="text-center">CTS TOTAL NET <br> CASH COLLECTION</th>
                         <th>DPAS / DPR</th>
                         <th>VDS</th>
                         <th>DISCREPANCY</th>
-                        <th>DPAS / DPR REMARKS</th>
-                        <th>DPAS / DPR UPLOADED BY</th>
-                        <th>DPAS / DPR UPLOADED DATE</th>
-                        <th>VDS REMARKS</th>
-                        <th>VDS UPLOADED BY</th>
-                        <th>VDS UPLOADED DATE</th>
                     </tr>
                 </thead>
                 <tbody>

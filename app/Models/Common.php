@@ -41,5 +41,30 @@ class Common extends Model
         return DB::select('sp_EmpCTS_Get ?', $data);
     }
 
+    public static function getStatus()
+    {
+        return DB::select('sp_Status_Get');
+    }
+
+    public static function getDC($data)
+    {
+        return DB::select('sp_DCBM_Get ?', $data);
+    }
+
+    public static function getAM($data)
+    {
+        return DB::select('ATPI_HR_15.dbo.[sp_AreaManager_Get] ' . MyHelper::generateQM($data),$data );
+    }
+
+    public static function getAC($data)
+    {
+        return DB::select('ATPI_HR_15.dbo.[sp_AreaCoordinator_Get] ' . MyHelper::generateQM($data),$data );
+    }
+
+    public static function getStoreAC($data)
+    {
+        return DB::select('sp_StoreAC_Get ' . MyHelper::generateQM($data),$data );
+    }
+
 
 }

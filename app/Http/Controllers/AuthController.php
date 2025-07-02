@@ -48,7 +48,7 @@ class AuthController extends Controller
                 'ActionName'=>$access->ActionName));
             endforeach;
 
-
+                $locationID = $userDetails[0]->SLocation_ID == 0 || is_null($userDetails[0]->SLocation_ID) ? $userDetails[0]->Location_ID : $userDetails[0]->SLocation_ID;
                 Session::put('UserAccess',       $sessionAccess);
                 Session::put('Employee_ID',      MyHelper::encrypt($userDetails[0]->Emp_ID));
                 Session::put('EmployeeNo',       MyHelper::encrypt($userDetails[0]->EmployeeNo));
@@ -57,7 +57,7 @@ class AuthController extends Controller
                 Session::put('Department_ID',    MyHelper::encrypt($userDetails[0]->Department_ID));
                 Session::put('Department',       MyHelper::encrypt($userDetails[0]->Department));
                 Session::put('Email',            MyHelper::encrypt($userDetails[0]->Email));
-                Session::put('Location_ID',      MyHelper::encrypt($userDetails[0]->SLocation_ID));
+                Session::put('Location_ID',      MyHelper::encrypt($locationID));
                 Session::put('Location',         MyHelper::encrypt($userDetails[0]->SLocation));
                 Session::put('Position',         MyHelper::encrypt($userDetails[0]->Position));
 
@@ -86,5 +86,10 @@ class AuthController extends Controller
         Artisan::call('cache:clear');
         Session::flush();
         return  Redirect::to(env('MYHUB_LOGOUT_URL'));
+    }
+
+    public function expired()
+    {
+        return  abort(501);
     }
 }

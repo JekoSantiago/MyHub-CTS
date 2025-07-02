@@ -103,9 +103,15 @@ class PageController extends Controller
             MyHelper::decrypt(Session::get('Department_ID'))
         ];
 
-        $stores = Common::getStores($param);
+        $paramDC =[
+            MyHelper::decrypt(Session::get('Employee_ID')),
+        ];
 
-        $data['stores'] = $stores;
+
+
+        $data['stores'] = Common::getStores($param);
+        $data['dc'] = Common::getDC($paramDC);
+        $data['status'] = Common::getStatus();
         return view('pages.audit.index', $data);
     }
 

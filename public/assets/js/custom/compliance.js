@@ -51,7 +51,15 @@ $(document).ready(function() {
                 );
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("Processing data failed. Please report to the System Adminstator.");
+                if (jqXHR.status === 419)
+                {
+                    alert("Session Expired. Kindly Relogin Again.");
+                }
+                else
+                {
+                    alert("Processing data failed. Please report to the System Adminstator.");
+                }
+
             },
 
         },

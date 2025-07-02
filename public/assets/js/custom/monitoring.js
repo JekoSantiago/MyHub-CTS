@@ -49,7 +49,15 @@ $(document).ready(function() {
                 );
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("Processing data failed. Please report to the System Adminstator.");
+                if (jqXHR.status === 419)
+                {
+                    alert("Session Expired. Kindly Relogin Again.");
+                }
+                else
+                {
+                    alert("Processing data failed. Please report to the System Adminstator.");
+                }
+
             },
 
         },
@@ -88,8 +96,40 @@ $(document).ready(function() {
     });
 
     $('#btn_filter_mcts').on('click', function () {
-        $('#modal_filter_mcts').modal('hide');
-        tblmCTS.draw();
+        var filter_dateFrom  = $('#filter_dateFrom').val();
+        var filter_dateTo  = $('#filter_dateTo').val();
+        var error = false;
+
+        if(filter_dateFrom.length <= 0)
+        {
+            error = true;
+            $('#filter_dateFrom').addClass('error-input');
+            $('#filter_dateFrom_error').show();
+        }
+        else
+        {
+            $('#filter_dateFrom').removeClass('error-input');
+            $('#filter_dateFrom_error').hide();
+        }
+
+        if(filter_dateTo.length <= 0)
+        {
+            error = true;
+            $('#filter_dateTo').addClass('error-input');
+            $('#filter_dateTo_error').show();
+        }
+        else
+        {
+            $('#filter_dateTo').removeClass('error-input');
+            $('#filter_dateTo_error').hide();
+        }
+
+        if(error == false)
+        {
+            $('#modal_filter_mcts').modal('hide');
+            tblmCTS.draw();
+        }
+
     });
 
 

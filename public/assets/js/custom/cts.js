@@ -160,7 +160,15 @@ $(document).ready(function() {
                 );
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("Processing data failed. Please report to the System Adminstator.");
+                if (jqXHR.status === 419)
+                {
+                    alert("Session Expired. Kindly Relogin Again.");
+                }
+                else
+                {
+                    alert("Processing data failed. Please report to the System Adminstator.");
+                }
+
             },
 
         },
@@ -174,10 +182,24 @@ $(document).ready(function() {
         columns: [
             {
                 render: function (data, type, row, meta) {
-                    var btn = ''
-                    if (parseInt(row.PickupCount) < 5 && row.CTSDate == getDate() && row.InsertBy == userID)
-                    {
-                        btn = '<a href="javascript:void(0)" class="action-icon text-success"  data-toggle="tooltip" data-placement="top" title="ENCODE"><i class="mdi mdi-account-cash-outline denum"></i></a>';
+                    var currentDate = new Date();
+                    var lastDayOfPreviousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0); // Day 0 represents the last day of the previous month
+                    var btn = '';
+                    var ctsDate = new Date(row.CTSDate);
+
+                    if ((parseInt(row.PickupCount) < 5 && row.CTSDate == getDate() && row.InsertBy == userID) ||
+                        (currentDate.getDate() === 1 && ctsDate.getDate() === lastDayOfPreviousMonth.getDate())) {
+                        btn = '<a href="javascript:void(0)" class="action-icon text-success" data-toggle="tooltip" data-placement="top" title="ENCODE"><i class="mdi mdi-account-cash-outline denum"></i></a>';
+                    }
+                    else {
+                        console.log('row.PickupCount:', row.PickupCount);
+                        console.log('row.CTSDate:', row.CTSDate);
+                        console.log('getDate():', getDate());
+                        console.log('row.InsertBy:', row.InsertBy);
+                        console.log('userID:', userID);
+                        console.log('currentDate.getDate():', currentDate.getDate());
+                        console.log('ctsDate.getDate():', ctsDate.getDate());
+                        console.log('lastDayOfPreviousMonth.getDate():', lastDayOfPreviousMonth.getDate());
                     }
 
                     return  btn;

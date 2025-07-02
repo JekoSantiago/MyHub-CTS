@@ -34,7 +34,7 @@ $checkAccessParams['userAccess'] = Session::get('UserAccess');
                     </a>
                 </li>
                 @endif
-                @if(Myhelper::decrypt(Session::get('Department_ID')) == 20 || Myhelper::decrypt(Session::get('Role_ID')) == 1)
+                @if((Myhelper::decrypt(Session::get('Department_ID')) == 20 || Myhelper::decrypt(Session::get('Role_ID')) == 1) && Myhelper::decrypt(Session::get('Employee_ID')) != 20536)
                 <li>
                     <a href="{{route('audit')}}">
                         <i data-feather="file-text"></i>

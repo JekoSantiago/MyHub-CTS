@@ -169,3 +169,8 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
     }
 }
 
+.image-modal{
+    width: 50%;
+    max-width: none;
+}
+

@@ -46,6 +46,18 @@ Route::get('/compliance-dl/{params}','ReportController@exportCompliance');
 Route::post('/audit-get','AuditController@getAuditDT');
 Route::get('/audit-dl/{params}','ReportController@exportAudit');
 Route::post('/image-get','AuditController@getImage');
+Route::get('/status-get','OptionsController@getStatus');
+Route::post('/status-insert','AuditController@insertRemStatus');
+
+//Options
+Route::post('/am-get','OptionsController@getAM');
+Route::post('/ac-get','OptionsController@getAC');
+Route::post('/storeac-get','OptionsController@getStoreAC');
+
+//Error
+Route::get('/expired','AuthController@expired');
+
+
 
 
 

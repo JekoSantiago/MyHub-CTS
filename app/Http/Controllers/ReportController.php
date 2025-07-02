@@ -66,7 +66,7 @@ class ReportController extends Controller
 
 
         $invoice = Pdf::loadView('reports.ctsreport',$data)->setPaper('letter', 'landscape');
-        $invoice->save(storage_path().'/app/public/'. $request->segment(2) .'.pdf');
+        // Instead of saving the PDF, directly stream it
         return $invoice->stream();
     }
 

@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 
-    $('#filter_store').select2();
+    $('.select2').select2();
 
     var date1 = $("#filter_dateFrom").flatpickr({
         onChange: function(selectedDates, dateStr, instance) {
@@ -20,7 +20,19 @@ $(document).ready(function() {
 
     });
 
+    var selectOptions = [];
 
+    $.ajax({
+        url: WebURL + '/status-get',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          selectOptions = data;
+        },
+        error: function(xhr, status, error) {
+          console.error(error);
+        }
+      });
 
     var tbl_audit = $('#tbl_audit').DataTable({
         autoWidth: true,
@@ -34,13 +46,12 @@ $(document).ready(function() {
             method: 'POST',
             datatype: 'json',
             data: function (data) {
-                var filter_dateFrom  = $('#filter_dateFrom').val();
-                var filter_dateTo  = $('#filter_dateTo').val();
-                var filter_store = $('#filter_store').val();
-                data.filter_dateFrom  = filter_dateFrom;
-                data.filter_dateTo = filter_dateTo;
-                data.filter_store = filter_store;
-
+                data.filter_dateFrom  = $('#filter_dateFrom').val();
+                data.filter_dateTo = $('#filter_dateTo').val();
+                data.filter_store = $('#filter_store').val();
+                data.filter_am = $('#filter_am').val();
+                data.filter_ac = $('#filter_ac').val();
+                data.filter_status = $('#filter_status').val();
             },
             beforeSend: function () {
                 $('#tbl_audit > tbody').html(
@@ -50,7 +61,15 @@ $(document).ready(function() {
                 );
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("Processing data failed. Please report to the System Adminstator.");
+                if (jqXHR.status === 419)
+                {
+                    alert("Session Expired. Kindly Relogin Again.");
+                }
+                else
+                {
+                    alert("Processing data failed. Please report to the System Adminstator.");
+                }
+
             },
 
         },
@@ -62,10 +81,34 @@ $(document).ready(function() {
             }
         },
         columns: [
-            {data:'LocationCode'},
-            {data:'Location'},
+            {data:'LocationCode',
+            render: function(data,type,row,meta){
+                return row.LocationCode + ' - ' + row.Location
+            }
+            },
             {data:'Sched'},
             {data:'SalesDate',className:'text-right'},
+            { //Status
+            render: function(data, type, row, meta) {
+                var selectHTML = '<select class="select2 statOpt"> <option></option>';
+                for (var i = 0; i < selectOptions.length; i++) {
+                    if (row.Status_ID == selectOptions[i].Status_ID )
+                    {
+                        selectHTML += '<option value="' + selectOptions[i].Status_ID + '"selected>' + selectOptions[i].Status + '</option>';
+                    }
+                    else
+                    {
+                        selectHTML += '<option value="' + selectOptions[i].Status_ID + '">' + selectOptions[i].Status + '</option>';
+                    }
+                }
+                selectHTML += '</select>';
+                return selectHTML;
+            }},
+            { // Treasury Remarks
+            render: function(data, type, row, meta) {
+                btn = '<a href="javascript:void(0)" class="action-icon text-primary"  data-toggle="modal"  data-target="#modal_remarks" data-remarks="'+row.Remarks+'" data-locID="'+row.Location_ID+'" data-salesDate="'+row.SalesDate+'" ><i class="mdi mdi-chat-processing-outline mdi-36px"></i></a>';
+                return btn;
+            }},
             {data:'NetCash',className:'text-right',
             render: function (data, type, row, meta) {
             return  (row.NetCash > 0) ? parseFloat(row.NetCash).toLocaleString(undefined, {
@@ -80,7 +123,7 @@ $(document).ready(function() {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   });
-                return  (row.DepositAmount > 0) ? '<a href="javascript:void(0)" data-image="1|'+row.Deposit_ID+'" data-toggle="modal" data-target="#modal_dpas" class=" text-info">'+DepositAmount+'</a>' : '';
+                return  (row.DepositAmount > 0) ? '<a href="javascript:void(0)" data-image="1|'+row.Deposit_ID+'|'+row.Location_ID+'" data-toggle="modal" data-target="#modal_dpas" class=" text-info">'+DepositAmount+'</a>' : '';
             },className:'text-right'
             },
             {data:'VDA',
@@ -90,7 +133,7 @@ $(document).ready(function() {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   });
-                var VDA = (row.VDA > 0) ? '<a href="javascript:void(0)" data-image="2|'+row.ValidatedDeposit_ID+'" data-toggle="modal" data-target="#modal_dpas" class=" text-info">'+VDepositAmount+'</a>': '';
+                var VDA = (row.VDA > 0) ? '<a href="javascript:void(0)" data-image="2|'+row.ValidatedDeposit_ID+'|'+row.Location_ID+'" data-toggle="modal" data-target="#modal_dpas" class=" text-info">'+VDepositAmount+'</a>': '';
                 return VDA;
             },className:'text-right'},
             {data:'Discrepancy',className:'text-right',
@@ -100,31 +143,16 @@ $(document).ready(function() {
                     maximumFractionDigits: 2
                   }) : '';
                 }},
-            {data:'DPASRemarks',
-            render: function (data, type, row, meta) {
-                var dpasR = (row.DPASRemarks) ? row.DPASRemarks.toString() : '';
-              return  (dpasR.length> 18) ?  '<a href="javascript:void(0)" data-remarks="'+dpasR+'" data-toggle="modal" data-target="#modal_remarks" class=" text-info">'+dpasR.substring(0, 17)+'</a>': dpasR;
-            }
-            },
-            {data:'DPASby'},
-            {data:'DPASdate'},
-            {data:'VDSRemarks',
-            render: function (data, type, row, meta) {
-                var vdsR = (row.VDSRemarks) ? row.VDSRemarks.toString() : '';
-              return  (vdsR.length> 18) ?  '<a href="javascript:void(0)" data-remarks="'+vdsR+'" data-toggle="modal" data-target="#modal_remarks" class=" text-info">'+vdsR.substring(0, 17)+'</a>': vdsR;
-            }
-            },
-            {data:'VDAby'},
-            {data:'VDAdate'}
         ],
         drawCallback: function () {
             $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+            $('.select2').select2();
         },
         "createdRow": function( row, data, dataIndex ) {
 
             if(data.Discrepancy < 0)
             {
-                $(row).children(':nth-child(8)').addClass('text-dangeseler');
+                $(row).children(':nth-child(9)').addClass('text-danger');
                 $(row).addClass('important');
             }
 
@@ -132,8 +160,62 @@ $(document).ready(function() {
         },
     });
 
+
+    tbl_audit.on('change', '.statOpt', function() {
+        var data = tbl_audit.row( $(this).parents('tr') ).data();
+        var status = $(this).val();
+        console.log(data);
+
+        var locID = data.Location_ID
+        var salesDate = data.SalesDate
+
+        $.ajax({
+            url: WebURL + '/status-insert',
+            type: 'POST',
+            dataType: 'json',
+            data: {locID:locID,salesDate:salesDate,status:status},
+            success: function(data) {
+                console.log(data)
+            },
+            error: function(xhr, status, error) {
+              console.error(error);
+            }
+          });
+
+
+      });
+
     $('#btn_filter_audit').on('click', function () {
         $('#modal_filter_audit').modal('hide');
+        var title = ""
+
+        if ($('#filter_store').val()!=0)
+        {
+            title = $('#filter_store option:selected').text();
+        }
+        else
+        {
+            if($('#filter_dc').val()!=0)
+            {
+                if($('#filter_am').val()!=0)
+                {
+                    if($('#filter_ac').val()!=0)
+                    {
+                        title = 'AC : ' + $('#filter_ac option:selected').text();
+                    }
+                    else
+                    {
+                        title = 'AM : ' + $('#filter_am option:selected').text();
+                    }
+                }
+                else
+                {
+                    title = $('#filter_dc option:selected').text();
+                }
+            }
+        }
+
+        $('#filter_title').text(title);
         tbl_audit.draw();
     });
 
@@ -162,6 +244,9 @@ $(document).ready(function() {
             $('#loader').hide();
             $('#attachment').show();
             $('#attachment').attr("src", data[0].Image);
+            $('#uRemarks').text(data[0].Remarks);
+            $('#uploadDate').text(data[0].InsertDate);
+            $('#uploadBy').text(data[0].InsertBy)
         },'JSON');
     });
 
@@ -174,10 +259,154 @@ $(document).ready(function() {
 
 
     $('#modal_remarks').on('show.bs.modal', function(e) {
-        var remarks  = $(e.relatedTarget).data('remarks');
-        $('#dpas_remarks').text(remarks);
+        var remarks  = $(e.relatedTarget).data('remarks') ?? 'Empty';
+        var salesDate  = $(e.relatedTarget).data('salesdate');
+        var locID  = $(e.relatedTarget).data('locid');
+        $('#tRemarks').html(remarks.replace(/\\n/g, '\n\r'));
+        $('#locID').val(locID)
+        $('#salesDate').val(salesDate);
+        $('#new_tRemarks').val('');
     });
 
+
+    $('#btn_new_rem').on('click',function(){
+        var error = false
+        var new_tRemarks = $('#new_tRemarks').val();
+
+        if($.trim(new_tRemarks).length == 0)
+        {
+            error = true;
+            $('#new_tRemarks').addClass('error-input');
+            $('#new_tRemarks_error').show();
+        }
+        else
+        {
+            $('#new_tRemarks').removeClass('error-input');
+            $('#new_tRemarks_error').hide();
+        }
+
+
+        if (error == false)
+        {
+            $('.invalid-feedback').hide();
+            $(this).attr('disabled',true)
+            $(this).text('Saving...')
+            swal.fire({
+                title: 'Are you sure?',
+                text: "Saving new Remarks",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+                }).then((result) => {
+                if(result.value)
+                {
+                    var formdata = $('#form_new_tRemarks').serialize();
+                    $.post(WebURL + '/status-insert',formdata,function(data){
+                        if(data.num>0)
+                        {
+                            console.log(data);
+                            swal.fire({
+                                title: 'Success',
+                                text: data.msg,
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                                }).then(function (result) {
+                                    if (true) {
+                                        $('#modal_remarks').modal('hide');
+                                        tbl_audit.ajax.reload(null,false)
+                                        $('#btn_new_rem').attr('disabled',false)
+                                        $('#btn_new_rem').text('Save')
+                                        $('#new_tRemarks').val('');
+                                    }
+                                    })
+                        }
+                        else
+                        {
+                            swal.fire({
+                                title: "Warning!",
+                                text: data.msg,
+                                icon: "warning",
+                                confirmButtonText: "Ok",
+                                confirmButtonColor: '#6658dd',
+                                allowOutsideClick: false,
+                            });
+
+                        }
+                    },'JSON');
+                }
+                else
+                {
+                    $('#btn_new_rem').attr('disabled',false)
+                    $('#btn_new_rem').text('Save')
+                }
+
+                });
+
+
+        }
+        else {
+            $('.error-input').filter(":first").focus();
+        }
+
+    })
+
+    $('#filter_dc').on('change',function(){
+        var dc = $('#filter_dc').val()
+        $.ajax({
+            url:WebURL+'/am-get',
+                type:'POST',
+                dataType: 'text',
+                data: {dc:dc},
+                cache: false,
+                success: function (data) {
+                    $('#filter_am').html(data);
+                    $('#filter_store').html('<option></option>');
+                    $('#filter_ac').html('<option></option>');
+
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+        })
+    })
+
+    $('#filter_am').on('change',function(){
+        var am = $('#filter_am').val()
+        $.ajax({
+            url:WebURL+'/ac-get',
+                type:'POST',
+                dataType: 'text',
+                data: {am:am},
+                cache: false,
+                success: function (data) {
+                    $('#filter_ac').html(data);
+                    $('#filter_store').html('<option></option>');
+
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+        })
+    })
+
+    $('#filter_ac').on('change',function(){
+        var ac = $('#filter_ac').val()
+        $.ajax({
+            url:WebURL+'/storeac-get',
+                type:'POST',
+                dataType: 'text',
+                data: {ac:ac},
+                cache: false,
+                success: function (data) {
+                    $('#filter_store').html(data);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+        })
+    })
 
 ///////
 });

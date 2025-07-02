@@ -19,6 +19,12 @@ $(document).ready(function() {
         }
     });
 
+    $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+        if (jqxhr.status === 419) {
+          window.location.href = WebURL + '/expired';
+        }
+    });
+
 
     var interval = setInterval(function() {
         var momentNow = moment();

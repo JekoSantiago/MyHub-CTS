@@ -17,4 +17,9 @@ class Audit extends Model
     {
         return DB::select('sp_Image_Get ' . MyHelper::generateQM($data), $data);
     }
+
+    public static function insertRemStatus($data)
+    {
+        return DB::select('sp_RemarkStatus_InsertUpdate ' . MyHelper::generateQM($data),$data);
+    }
 }

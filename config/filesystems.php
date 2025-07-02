@@ -64,6 +64,14 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+        'gcs' => [
+            'driver' => 'gcs',
+            'project_id' => env('GCP_PROJECT_ID'),
+            'key_file' => env('GCP_CREDENTIALS_PATH'), // Path to JSON key file
+            'bucket' => env('GCP_BUCKET_NAME'),
+            'path_prefix' => null, // Optional: subdirectory inside the bucket
+            'storage_api_uri' => null, // Optional: custom storage API URI
+        ],
 
     ],
 
