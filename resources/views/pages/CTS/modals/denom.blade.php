@@ -52,15 +52,22 @@
                             </div>
                             <div class="endopt">
                                 <div class="denomlist">
-                                    <div class="mr-2 mb-3 ">
+                                    <div class="mr-2 mb-2 ">
                                         <label for="denom_lcf">Loose Change Fund</label>
                                         <input type="number" id="denom_lcf" name="denom_lcf" class="form-control" value=""  min="0"  oninput="validity.valid||(value='')";>
                                         <label class="invalid-feedback" id="denom_lcf_error">Loose Change Fund is required.</label>
                                     </div>
-                                    <div class="mr-2 mb-3">
+                                    <div class="mr-2 mb-2">
                                         <label for="denom_lcc">Check Encashment</label>
                                         <input type="number" id="denom_lcc" name="denom_lcc" class="form-control" value="" min="0" oninput="validity.valid||(value='')";>
                                         <label class="invalid-feedback" id="denom_lcc_error">Check Encashment is required.</label>
+                                    </div>
+                                </div>
+                                <div class="denomlist">
+                                    <div class="mr-2 mb-3">
+                                        <label for="denom_eservices">Total E-Services Cash Amount</label>
+                                        <input type="number" id="denom_eservices" name="denom_eservices" class="form-control" value="" min="0" oninput="validity.valid||(value='')";>
+                                        <label class="invalid-feedback" id="denom_eservices_error">Total E-Services Cash Amount is required.</label>
                                     </div>
                                 </div>
                             </div>

@@ -108,6 +108,14 @@
                 <th colspan="2"  class="tg-4w8t" style="text-align: right">{{ number_format((float)$totcash - $tally[0]->LCF , 2, '.', ',') }}</th>
             </tr>
             <tr>
+                <th colspan="11" class="tg-dhix" style="padding-left: 20px;">POS SALES</th>
+                <th colspan="2"  class="tg-4w8t" style="text-align: right">{{ number_format((float)$totcash  - $tally[0]->LCF - $tally[0]->EServices , 2, '.', ',') }}</th>
+            </tr>
+            <tr>
+                <th colspan="11" class="tg-dhix" style="padding-left: 20px;">E-SERVICES</th>
+                <th colspan="2" class="tg-4w8t" style="text-align: right">{{ number_format($tally[0]->EServices, 2, '.', ',') }}</th>
+            </tr>
+            <tr>
                 <th colspan="11" class="tg-dhix">LESS: CHECK ENCASHMENT</th>
                 <th colspan="2"  class="tg-4w8t" style="text-align: right">{{ number_format($tally[0]->LCC , 2, '.', ',')  }}</th>
             </tr>
@@ -122,13 +130,13 @@
 <div class="row">
     <div class="col-4 text-center my-0">
         <div class="row pt-0">
-            <h5>PREPARED BY:</h5>
+            <h6 style="font-size: 15px; margin: 2;">PREPARED BY:</h6>
         </div>
         <div class="row pt-0">
-            <h5><u>{{ $name }}</u></h5>
+            <h6 style="font-size: 15px; margin: 2;"><u>{{ $name }}</u></h6>
         </div>
         <div class="row pt-0">
-            <h5>{{ $position }}</h5>
+            <h6 style="font-size: 15px; margin: 2;">{{ $position }}</h6>
         </div>
     </div>
 </div>

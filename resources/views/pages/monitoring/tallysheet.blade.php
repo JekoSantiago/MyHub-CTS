@@ -116,6 +116,14 @@ $checkAccessParams['userAccess'] = Session::get('UserAccess');
                         <th colspan="2" id="tcs"></th>
                     </tr>
                     <tr>
+                        <th colspan="11" class="text-left">&emsp; POS SALES</th>
+                        <th colspan="2" id="ps"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="11" class="text-left">&emsp; E-SERVICES</th>
+                        <th colspan="2" id="es"></th>
+                    </tr>
+                    <tr>
                         <th colspan="11" class="text-left">LESS: CHECK ENCASHMENT</th>
                         <th colspan="2" id="lcc"></th>
                     </tr>

@@ -3,6 +3,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Filter Form</h4>
+                {{-- add button here for download --}}
+                <button type="button" id="btn_generate_ir" class="btn btn-outline-success btn-md ml-2" title="Treasury Finding Report">
+                    <i class="mdi mdi-download"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="form_filter_cts">

@@ -3,6 +3,7 @@
 <link href="{{asset('assets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{asset('assets/libs/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css"/>
+
 @yield('css_plugins')
 
 <!-- Global Stylesheet -->

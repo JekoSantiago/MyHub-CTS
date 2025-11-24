@@ -16,11 +16,15 @@ $(document).ready(function() {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        501: function () {
+            // Redirect to login page
+            window.location.href = WebURL; // <-- change this to your actual login URL
         }
     });
 
     $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
-        if (jqxhr.status === 419) {
+        if (jqxhr.status === 419 || jqxhr.status === 501) {
           window.location.href = WebURL + '/expired';
         }
     });

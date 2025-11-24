@@ -292,8 +292,9 @@ $(document).ready(function() {
             var c5 = ($('#3').val() || 0);
             var c6 = ($('#2').val() || 0);
             var c7 = ($('#1').val() || 0);
+            var eservices = $('#denom_eservices').val();
 
-            console.log(type,lcf.length,lcc.length);
+            console.log(type,lcf.length,lcc.length,eservices.length);
 
             if(type == 5)
             {
@@ -330,6 +331,20 @@ $(document).ready(function() {
                     $('#denom_lcc').removeClass('error-input');
                     $('#denom_lcc_error').hide();
                 }
+
+                if(eservices.length == 0)
+                {
+                    error = true;
+                    $('#denom_eservices').addClass('error-input');
+                    $('#denom_eservices_error').show();
+                }
+
+                else
+                {
+                    $('#denom_eservices').removeClass('error-input');
+                    $('#denom_eservices_error').hide();
+                }
+
             }
 
             if(isEveryInputEmpty())
@@ -409,6 +424,10 @@ $(document).ready(function() {
                     maximumFractionDigits: 2
                   }) + ' </b></div>'+
                   '<div class="text-left">Check Encashment : <b> ' + parseFloat(lcc).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  }) +' </b> </div>'+
+                  '<div class="text-left">Total E-Services Cash Amount : <b> ' + parseFloat(eservices).toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   }) +' </b> </div>'+

@@ -34,7 +34,7 @@ Route::get('/denom-pickup/{id}','CtsController@getPickupType');
 Route::post('/monitoring-get','MonitoringController@getMCTS');
 Route::post('/tally-get','MonitoringController@getTallySheet');
 Route::get('/cts-print/{ctsNo}/{shift}','ReportController@exportCTS');
-Route::get('/cts-print2/{ctsNo}/{shift}','ReportController@exportCTS');
+Route::get('/cts-print2/{ctsNo}/{shift}','ReportController@exportCTSAll');
 
 
 
@@ -49,6 +49,14 @@ Route::post('/image-get','AuditController@getImage');
 Route::get('/status-get','OptionsController@getStatus');
 Route::post('/status-insert','AuditController@insertRemStatus');
 
+//Treasury Findings
+Route::get('show-ir/{id}','IRController@showIR');
+Route::get('get-ir/{loc}/{date}','IRController@getIR');
+Route::post('ir-save','IRController@saveIR');
+Route::get('/ir/download-ir','IRController@downloadATC')->name('atc.dl');
+Route::get('/report/ir/{param}', 'ReportController@IRReport');
+
+
 //Options
 Route::post('/am-get','OptionsController@getAM');
 Route::post('/ac-get','OptionsController@getAC');
@@ -57,7 +65,14 @@ Route::post('/storeac-get','OptionsController@getStoreAC');
 //Error
 Route::get('/expired','AuthController@expired');
 
+Route::get('/email-test','EmailController@sendEmailNotifTest');
 
 
-
-
+Route::get('/check-download-start', function () {
+    return response()->json([
+        'download_started' => session()->get('download_started')
+    ]);
+});
+Route::get('/dl-finish', function () {
+    session()->forget('download_started');
+});

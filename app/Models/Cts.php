@@ -24,7 +24,7 @@ class Cts extends Model
 
     public static function insertDenom($data)
     {
-        return DB::select('sp_Denom_Insert ?,?,?,?,?,?,?',$data);
+        return DB::select('sp_Denom_Insert ?,?,?,?,?,?,?,?',$data);
     }
 
     public static function getPickup($data)

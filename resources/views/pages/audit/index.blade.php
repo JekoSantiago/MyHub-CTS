@@ -2,6 +2,17 @@
 
 @section('css_plugins')
     <link href="{{asset('assets/libs/c3/c3.min.css')}}" rel="stylesheet" type="text/css"/>
+    <style>
+td.details-control::before {
+    content: '+';
+    font-weight: bold;
+    cursor: pointer;
+}
+tr.shown td.details-control::before {
+    content: '-';
+}
+</style>
+
 @endsection
 @section('content')
 
@@ -53,11 +64,13 @@
             <table id="tbl_audit" class="table table-centered w-100 nowrap">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>STORE</th>
                         <th>DPU FREQUENCY</th>
                         <th>SALES DATE</th>
                         <th style="width: 15%">STATUS</th>
                         <th>TREASURY <br> REMARKS</th>
+                        <th class="text-center">TOTAL POS <br> SALES</th>
                         <th class="text-center">CTS TOTAL NET <br> CASH COLLECTION</th>
                         <th>DPAS / DPR</th>
                         <th>VDS</th>
@@ -75,6 +88,8 @@
 @include('pages.audit.modals.filter')
 @include('pages.audit.modals.image')
 @include('pages.audit.modals.remarks')
+@include('pages.audit.modals.ir')
+
 
 
 

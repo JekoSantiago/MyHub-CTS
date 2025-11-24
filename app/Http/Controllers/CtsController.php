@@ -58,6 +58,7 @@ class CtsController extends Controller
 
         $data = $request->except('_token');
 
+
         $success = 0;
         $fail = 0;
         foreach ($data as $key => $value) {
@@ -70,8 +71,10 @@ class CtsController extends Controller
                     intval($request->pickup_type),
                     intval($request->denom_lcf),
                     intval($request->denom_lcc),
+                    intval($request->denom_eservices),
                     Myhelper::decrypt(Session::get('Employee_ID'))
                 ];
+
 
                 $insert = Cts::insertDenom($param);
 

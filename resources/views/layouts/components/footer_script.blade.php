@@ -14,6 +14,8 @@
 <script src="{{asset('assets/libs/jquery-session/jquery-session.js')}}"></script>
 <script src="{{asset('assets/libs/moment/moment.min.js')}}"></script>
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
+
+
 @yield('js_plugins')
 
 <!-- Custom Javascript -->

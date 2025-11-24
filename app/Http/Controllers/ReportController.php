@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Exports\ExportAudit;
 use App\Exports\ExportComp;
 use App\Exports\ExportCTS;
+use App\Exports\IRExport;
 use App\Helper\MyHelper;
 use App\Models\Audit;
 use App\Models\Compliance;
+use App\Models\IR;
 use App\Models\Monitoring;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -20,11 +22,13 @@ class ReportController extends Controller
     {
         MyHelper::checkSession();
 
+
         $param = [
             $request->segment(2),
-            MyHelper::decrypt(Session::get('Employee_ID')),
+           0,
             $request->segment(3),
         ];
+
 
         $param2 = [
             $request->segment(2),
@@ -225,5 +229,64 @@ class ReportController extends Controller
 
         return Excel::download(new ExportAudit($data), $filename);
 
+    }
+
+    public function IRReport($req)
+    {
+        $request = explode('@@', $req);
+        $param = [
+            $request[0],
+            $request[1],
+            $request[2],
+            $request[3],
+            $request[4],
+            $request[5],
+        ];
+
+        $data['details'] = IR::reportIR($param);
+
+
+        $data['grouped_details'] = [];
+
+        $rowNumber = 1; // Initialize row number
+        foreach ($data['details'] as $detail) {
+            $key = $detail->SalesDate . '_' . $detail->Location_ID . '_' . $detail->LocationCode . '_' . $detail->Sched;
+
+            if (!isset($data['grouped_details'][$key])) {
+                $data['grouped_details'][$key] = [
+                    'SalesDate' => $detail->SalesDate,
+                    'Location_ID' => $detail->Location_ID,
+                    'Location' => $detail->Location,
+                    'LocationCode' => $detail->LocationCode,
+                    'Sched' => $detail->Sched,
+                    'records' => [],
+                    'TotalCOH' => 0,
+                    'TotalCDR' => 0,
+                    'TotalDiscrepancy' => 0,
+                    'Count' => 0,
+                    'CTS' => $detail->NetCash,
+                    'RowNum' => $rowNumber // Added row number
+                ];
+                $rowNumber++; // Increment row number for each group
+            }
+
+            // Add the detail record to the records array
+            $data['grouped_details'][$key]['records'][] = $detail;
+
+            // Update the totals for this group
+            $data['grouped_details'][$key]['TotalCOH'] += floatval($detail->COH);
+            $data['grouped_details'][$key]['TotalCDR'] += floatval($detail->CDR);
+            $data['grouped_details'][$key]['TotalDiscrepancy'] += floatval($detail->COH - $detail->CDR);
+
+            $data['grouped_details'][$key]['Count']++;
+        }
+
+        // Convert associative array to indexed array
+        $data['grouped_details'] = array_values($data['grouped_details']);
+        $date = now()->format('Y-m-d'); // Get the current date
+        $excel = Excel::download(new IRExport($data), 'Treasury_Findings_Summary_Report' . '_ ' . $date . '.xlsx');
+        Session::put('download_started', true);
+
+        return $excel;
     }
 }
